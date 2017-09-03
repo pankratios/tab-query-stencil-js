@@ -1,8 +1,8 @@
 {
-  "name": "@stencil/starter",
+  "name": "tab-query-stencil",
   "private": true,
   "version": "0.0.1",
-  "description": "Stencil Starter App",
+  "description": "Tab query with stenciljs",
   "files": [
     "dist"
   ],
@@ -14,20 +14,12 @@
   },
   "dependencies": {
     "@stencil/core": "next",
-    "@stencil/router": "0.0.4"
+    "@types/chrome": "^0.0.48"
   },
   "devDependencies": {
     "@stencil/dev-server": "latest",
     "@stencil/utils": "latest"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ionic-team/stencil-starter.git"
-  },
-  "author": "Ionic Team",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ionic-team/stencil"
-  },
-  "homepage": "https://github.com/ionic-team/stencil"
+  "author": "rom0130@gmail.com",
+  "license": "MIT"
 }
