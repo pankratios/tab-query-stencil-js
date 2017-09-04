@@ -25,6 +25,11 @@ export class Tabs {
     }
   }
 
+  @Listen('window:keyup.enter')
+  onSelect(): void {
+    this.tabManager.activate(this.tabs[0].id);
+  }
+
   componentDidLoad(): void {
     this.tabManager.getAll().then((tabs) => this.tabs = tabs);
   }
