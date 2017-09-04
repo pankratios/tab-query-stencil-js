@@ -1,15 +1,14 @@
-import { Component, Listen, Prop, State } from '@stencil/core';
-import { TabManager } from './tab-manager';
+import { Component, Listen, State } from '@stencil/core';
+import { TabManager, Tab } from './tab-manager';
 
 @Component({
   tag: 'tq-tabs',
   styleUrl: 'tabs.scss'
 })
 export class Tabs {
-  @Prop() first: string;
+  @State() tabs: Tab[] = [];
+  @State() search: { term: string, test: RegExp };
 
-  @State() tabs: string[] = [];
-  @State() searchTerm: RegExp;
   tabManager: TabManager;
 
   constructor() {
@@ -18,29 +17,34 @@ export class Tabs {
 
   @Listen('onSearch')
   onSearch(ev: CustomEvent): void {
-    this.searchTerm = new RegExp(ev.detail, 'i');
+    const term = ev.detail;
+
+    this.search = {
+      term,
+      test: new RegExp(ev.detail, 'i')
+    }
   }
 
   componentDidLoad(): void {
-    this.tabManager.getAll().then((t) => {
-      this.tabs = t.map(tab => tab.title);
-    });
-  }
-
-  filter(name: string): boolean {
-    return !this.searchTerm || this.searchTerm.test(name);
+    this.tabManager.getAll().then((tabs) => this.tabs = tabs);
   }
 
   render(): JSX.Element {
-    console.log('did load');
-    return (
-      <div>
-        <search-box></search-box>
-        <h1>Hello, my name is {this.first}</h1>
-        <ul>
-          {this.tabs.filter((name) => this.filter(name)).map(name => <li>{name}</li>)}
+    const tabs = this.search ? this.tabs.filter((tab) => this.filter(tab.title)) : this.tabs;
+    const suggest = tabs.length && tabs[0].title;
+    const term = this.search ? this.search.term : '';
+
+    return ([
+      <search-box suggest={ suggest } term={ term }></search-box>,
+      <div class="container">
+        <ul class="list">
+          {tabs.map(tab => <li class="item">{ tab.title }</li>)}
         </ul>
       </div>
-    );
+    ]);
+  }
+
+  filter(name: string): boolean {
+    return this.search.test.test(name);
   }
 }

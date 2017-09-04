@@ -1,10 +1,5 @@
 <!DOCTYPE html>
-<!--
-     This page is shown when the extension button is clicked, because the
-     "browser_action" field in manifest.json contains the "default_popup" key with
-     value "popup.html".
-   -->
-<html>
+<html dir="ltr">
   <head>
     <title>Getting Started Extension's Popup</title>
     <style>
@@ -38,6 +33,7 @@
        padding: 0.4rem 1rem;
        margin: 0px;
        top: 0px;
+       left: 0px;
        border: 1px solid #fff;
        /*#13365f;*/
        font-size: 1.3rem;
@@ -48,6 +44,8 @@
 
      .hide {
        display: none !important;
+
+
      }
 
      .hidden {
@@ -58,6 +56,11 @@
        position: static;
        color: #ccc;
        background-color: #fff;
+     }
+
+     search-box,
+     tq-tabs {
+       display: block;
      }
 
      /* body:before { */
@@ -164,48 +167,10 @@
      }
 
     </style>
-
-    <!--
-       - JavaScript and HTML must be in separate files: see our Content Security
-       - Policy documentation[1] for details and explanation.
-       -
-       - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
-       -->
-    <script src="build/app.js"></script>
+    <meta name="prerendered">
   </head>
   <body>
-    <tq-tabs></tq-tabs>
-    <!-- <ul>
-         <li>Test test</li>
-         <li>Test test</li>
-         <li>Test test</li>
-         <li>Test test</li>
-         <li>Test test</li>
-         <li>Test test</li>
-         <li>Test test</li>
-         <li>Test test</li>
-         <li>Test test</li>
-         <li>Test test</li>
-         <li>Test test</li>
-         <li>Test test</li>
-         <li>Test test</li>
-         <li>Test test</li>
-         <li>Test test</li>
-         <li>Test test</li>
-         <li>Test test</li>
-         <li>Test test</li>
-         <li>Test test</li>
-         <li>Test test</li>
-         <li>Test test</li>
-         <li>Test test</li>
-         <li>Test test</li>
-         <li>Test test</li>
-         <li>Test test</li>
-         <li>Test test</li>
-         <li>Test test</li>
-         <li>Test test</li>
-         <li>Test test</li>
-         <li>Test test</li>
-         </ul> -->
+    <tq-tabs data-ssrv="0" class="💎"><div class="container" data-ssrc="0.0"><search-box data-ssrc="0.0." data-ssrv="1" class="💎"><input type="text" class="query suggest" data-ssrc="1.0."><input type="search" role="search" class="query" data-ssrc="1.1."></search-box><ul class="list" data-ssrc="0.1."></ul></div></tq-tabs>
+    <script src="boot.js"></script>
   </body>
 </html>

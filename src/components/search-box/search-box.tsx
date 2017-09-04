@@ -1,10 +1,13 @@
-import { Component, Event, EventEmitter } from '@stencil/core';
+import { Component, Event, EventEmitter, Prop } from '@stencil/core';
 
 @Component({
   tag: 'search-box',
   styleUrl: 'search-box.scss'
 })
 export class SearchBox {
+  @Prop() suggest: string;
+  @Prop() term: string;
+
   @Event() onSearch: EventEmitter;
 
   input(ev: Event): void {
@@ -14,9 +17,16 @@ export class SearchBox {
     this.onSearch.emit(value);
   }
 
-  render() {
-    return (
-      <input onInput={(ev) => this.input(ev)} placeholder="Image name" autoComplete="off" role="search" type="search" />
-    );
+  render(): JSX.Element {
+    let suggest = this.term;
+
+    if (this.suggest) {
+      suggest = this.term + this.suggest.substring(this.term.length);
+    }
+
+    return ([
+      <input disabled class="query suggest" type="text" value={ suggest || '' } />,
+      <input autoFocus class="query" type="search" onInput={ (ev) => this.input(ev) } autoComplete="off" role="search" />
+    ]);
   }
 }
