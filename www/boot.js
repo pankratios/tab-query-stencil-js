@@ -17,4 +17,4 @@
     x = document.createElement('script');
     x.src = window.customElements && window.fetch ? appCore : appCorePolyfilled;
     document.head.appendChild(x);
-})(window, document, "App","build/app/app.core.js","build/app/app.core.pf.js",[["SEARCH-BOX","search-box",{"$":"search-box"},[["suggest",1],["term",1]]],["TQ-TABS","search-box",{"$":"search-box"},0,[["onSearch","onSearch"],["window:keyup.enter","onSelect"]]]]);
+})(window, document, "App","build/app/app.core.js","build/app/app.core.pf.js",[["SEARCH-BOX","search-box",{"$":"search-box"},[["suggest",1],["term",1]]],["TQ-TABS","search-box",{"$":"search-box"},0,[["onSearch","onSearch"],["window:keydown","onSelect"]]]]);

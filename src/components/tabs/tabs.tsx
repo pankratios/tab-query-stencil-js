@@ -1,5 +1,7 @@
 import { Component, Listen, State } from '@stencil/core';
-import { TabManager, Tab } from './tab-manager';
+import { TabManager } from './tab-manager';
+import { Tab } from './tab';
+import { KEY_MAP } from './key-map';
 
 @Component({
   tag: 'tq-tabs',
@@ -19,15 +21,26 @@ export class Tabs {
   onSearch(ev: CustomEvent): void {
     const term = ev.detail;
 
-    this.search = {
-      term,
-      test: new RegExp(ev.detail, 'i')
-    }
+    this.search = { term, test: new RegExp(ev.detail, 'i') };
   }
 
-  @Listen('window:keyup.enter')
-  onSelect(): void {
-    this.tabManager.activate(this.tabs[0].id);
+  @Listen('window:keydown')
+  onSelect(ev: KeyboardEvent): void {
+    const key = ev.metaKey ? `m${ev.key}` : ev.key;
+
+    switch(KEY_MAP[key] || key) {
+      case 'enter':
+        this.tabManager.activate(this.tabs[0].id);
+        break;
+      case 'up':
+        console.info('up');
+        // up
+        break;
+      case 'down':
+        console.info('down');
+        // down
+        break;
+    }
   }
 
   componentDidLoad(): void {

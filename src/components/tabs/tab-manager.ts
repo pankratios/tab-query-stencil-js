@@ -1,5 +1,10 @@
+import { Tab } from './tab';
+
 // stub for browser dev
 const chromeTabsStub = {
+  update: (tabId, opts) => {
+    console.info('chrome stub update tab: ', tabId, opts);
+  },
   query: (opts, callback) => {
     console.log(opts);
     callback([
@@ -12,12 +17,6 @@ const chromeTabsStub = {
   }
 }
 
-export interface Tab {
-  id: number,
-  title: string;
-  url?: string;
-}
-
 export class TabManager {
   private get tabs(): any {
     return chrome.tabs || chromeTabsStub;
@@ -27,12 +26,13 @@ export class TabManager {
     const options = { currentWindow: true };
     const tabs = new Promise((resolve) => {
       this.tabs.query(options, (tabs: chrome.tabs.Tab[]) => resolve(tabs))
-    }).then((tabs: chrome.tabs.Tab[]) => tabs.map(({title, id}) => ({ title, id })));
+    })
+      .then((tabs: chrome.tabs.Tab[]) => tabs.map(({ title, id }) => ({ title, id })));
 
     return tabs;
   }
 
   public activate(tabId: number): void {
-    chrome.tabs.update(tabId, { active: true });
+    this.tabs.update(tabId, { active: true });
   }
 }
