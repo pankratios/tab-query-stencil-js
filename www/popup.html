@@ -1,14 +1,11 @@
-<!DOCTYPE html>
-<html dir="ltr">
-  <head>
-    <title>Getting Started Extension's Popup</title>
+<!DOCTYPE html><html dir="ltr"><head><style data-styles="">.query{position:absolute;outline:none;box-sizing:border-box;width:100%;border:1px solid #fff;padding:0.4rem 1rem;margin:0px;top:0px;left:0px;border:1px solid #fff;font-size:1.3rem;font-family:"Myriad Set Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;font-weight:200;background-color:transparent;}.suggest{position:static;color:#ccc;background-color:#fff;}.container{box-sizing:border-box;width:100%;height:400px;margin:0px;padding:0px;overflow-y:scroll;overflow-x:hidden;}.list{box-sizing:border-box;margin:0px;padding:0px;list-style-type:none;overflow:visible;}tq-search-box.💎,tq-tabs.💎{visibility:inherit;}</style>
+    <title>tq - a super simple chrome tab browser</title>
     <style>
      html {
        /* font-family: helvetica, arial, sans-serif; */
        /* font-weight: 300; */
        color: #111;
      }
-
      body,
      html {
        width: 400px;
@@ -17,160 +14,21 @@
        padding: 0px;
        background: #fff;
      }
-
      body {
-       counter-reset: skey;
        font-family: "Myriad Set Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
        background: linear-gradient(105deg, #ff7425 40%, #ff9441 40%, #ff9441 50%, #ff9441 55%, #b62500 90%);
      }
-
-     .query {
-       position: absolute;
-       outline: none;
-       box-sizing: border-box;
-       width: 100%;
-       border: 1px solid #fff;
-       padding: 0.4rem 1rem;
-       margin: 0px;
-       top: 0px;
-       left: 0px;
-       border: 1px solid #fff;
-       /*#13365f;*/
-       font-size: 1.3rem;
-       font-family: "Myriad Set Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
-       font-weight: 200;
-       background-color: transparent;
-     }
-
      .hide {
        display: none !important;
-
-
      }
-
      .hidden {
        visibility: hidden;
      }
-
-     .suggest {
-       position: static;
-       color: #ccc;
-       background-color: #fff;
-     }
-
-     search-box,
-     tq-tabs {
-       display: block;
-     }
-
-     /* body:before { */
-     /*   position: absolute; */
-     /*   bottom: 0px; */
-     /*   right: 0px; */
-     /*   color: rgba(255, 255, 255, 0.2); */
-     /*   font-size: 0.5rem; */
-     /*   font-weight: 300; */
-     /*   padding: 0.3rem 0.4rem; */
-     /*   content: '\00A9  2013 pankratios'; */
-     /* } */
-     .container {
-       box-sizing: border-box;
-       width: 100%;
-       height: 400px;
-       margin: 0px;
-       padding: 0px;
-       overflow-y: scroll;
-       overflow-x: hidden;
-     }
-
-     .list {
-       box-sizing: border-box;
-       margin: 0px;
-       padding: 0px;
-       list-style-type: none;
-       overflow: visible;
-       /* color: #fff; */
-     }
-
-     .item {
-       box-sizing: border-box;
-       padding: 0.5rem 0.6rem 0.7rem;
-       margin: 1px 0px 0px 0px;
-       overflow: hidden;
-       border-right: 5px solid transparent;
-       /* border-left: 0px solid #fff; */
-       border-left: 5px solid transparent;
-       /* -webkit-transition: border-width 200ms linear; */
-       /* transition: border-width 200ms ease-in; */
-       background: rgba(255, 255, 255, 0.2);
-       position: relative;
-       color: #fff;
-     }
-
-     /* .item:after { */
-     /*     content: attr(data-tabnr); */
-     /*     position: absolute; */
-     /*     left: 0.1em; */
-     /*     top: 0.1em; */
-     /*     display: block; */
-     /*     /\* width: 25px; *\/ */
-     /*     text-align: left; */
-     /*     font-weight: 200; */
-     /*     font-size: 0.5rem; */
-     /*     color: #888; */
-     /*     /\* opacity: 0.2; *\/ */
-     /* } */
-
-     /* .item:nth-child(-1n+10):after { */
-     /*   display: block; */
-     /*   font-size: 0.8rem; */
-     /*   counter-increment: skey; */
-     /*   content: '\2318' counter(skey); */
-     /* } */
-     .item-selected {
-       background-color: rgba(255, 255, 255, 0.4);
-       /* border-right-width: 0px; */
-       /* border-left-width: 5px; */
-       border-left-color: #fff;
-     }
-
-     .item-active {
-       background-color: rgba(255, 255, 255, 0.7);
-       color: #333;
-     }
-
-     .item-container {
-       background: left top / 20px 20px no-repeat;
-       min-height: 20px;
-       padding-left: 30px;
-     }
-
-     .item-title {
-       margin: 0px;
-       padding: 0px;
-       font-size: 1rem;
-       font-weight: 200;
-     }
-
-     .item-desc {
-       display: none;
-       margin: 0.5rem 0;
-       padding: 0;
-       font-size: 0.8rem;
-       /* color: #333; */
-       line-height: 1.45;
-       font-weight: 400;
-     }
-
-     .item-selected .item-desc {
-       display: block;
-     }
-
     </style>
-    <meta name="prerendered">
-  </head>
+
+  <meta name="prerendered"><link rel="canonical" href="/"></head>
   <body>
-    <tq-tabs data-ssrv="0" class="💎"><search-box data-ssrc="0.0." data-ssrv="1" class="💎"><input disabled="" type="text" class="query suggest" data-ssrc="1.0."><input type="search" role="search" class="query" data-ssrc="1.1."></search-box><div class="container" data-ssrc="0.1"><ul class="list" data-ssrc="0.0."></ul></div></tq-tabs>
+    <tq-tabs data-ssrv="0" class="💎"><tq-search-box data-ssrc="0.0." data-ssrv="1" class="💎"><input disabled="" type="text" class="query suggest" data-ssrc="1.0."><input type="search" role="search" class="query" data-ssrc="1.1."></tq-search-box><div class="container" data-ssrc="0.1"><ul class="list" data-ssrc="0.0."></ul></div></tq-tabs>
     <script src="boot.js"></script>
   </body>
 </html>

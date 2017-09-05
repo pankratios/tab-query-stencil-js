@@ -1,7 +1,20 @@
 import { Component, Listen, State } from '@stencil/core';
-import { TabManager } from './tab-manager';
+import { getAll, activate } from './tab-manager';
 import { Tab } from './tab';
 import { KEY_MAP } from './key-map';
+
+const renderTab = (tab: Tab): JSX.Element => {
+  const styles = {
+    backgroundImage: `url(${tab.favIconUrl})`
+  };
+  const classes = {
+    item: true,
+    'item--selected': tab.selected,
+    'item--highlighted': tab.highlighted
+  };
+
+  return (<li style={ styles } class={ classes }>{ tab.title }</li>);
+}
 
 @Component({
   tag: 'tq-tabs',
@@ -11,10 +24,21 @@ export class Tabs {
   @State() tabs: Tab[] = [];
   @State() search: { term: string, test: RegExp };
 
-  tabManager: TabManager;
+  componentDidLoad(): void {
+    getAll().then((tabs) => this.tabs = tabs);
+  }
 
-  constructor() {
-    this.tabManager = new TabManager();
+  render(): JSX.Element {
+    const tabs = this.search ? this.tabs.filter((tab) => this.search.test.test(tab.title)) : this.tabs;
+    const suggest = tabs.length && tabs[0].title;
+    const term = this.search ? this.search.term : '';
+
+    return ([
+      <tq-search-box suggest={ suggest } term={ term }></tq-search-box>,
+      <div class="container">
+        <ul class="list">{ tabs.map(renderTab) }</ul>
+      </div>
+    ]);
   }
 
   @Listen('onSearch')
@@ -30,7 +54,7 @@ export class Tabs {
 
     switch(KEY_MAP[key] || key) {
       case 'enter':
-        this.tabManager.activate(this.tabs[0].id);
+        activate(this.tabs[0].id);
         break;
       case 'up':
         console.info('up');
@@ -41,28 +65,5 @@ export class Tabs {
         // down
         break;
     }
-  }
-
-  componentDidLoad(): void {
-    this.tabManager.getAll().then((tabs) => this.tabs = tabs);
-  }
-
-  render(): JSX.Element {
-    const tabs = this.search ? this.tabs.filter((tab) => this.filter(tab.title)) : this.tabs;
-    const suggest = tabs.length && tabs[0].title;
-    const term = this.search ? this.search.term : '';
-
-    return ([
-      <search-box suggest={ suggest } term={ term }></search-box>,
-      <div class="container">
-        <ul class="list">
-          {tabs.map(tab => <li class="item">{ tab.title }</li>)}
-        </ul>
-      </div>
-    ]);
-  }
-
-  filter(name: string): boolean {
-    return this.search.test.test(name);
   }
 }

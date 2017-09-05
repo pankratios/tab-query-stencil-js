@@ -1,7 +1,7 @@
 import { Component, Event, EventEmitter, Prop } from '@stencil/core';
 
 @Component({
-  tag: 'search-box',
+  tag: 'tq-search-box',
   styleUrl: 'search-box.scss'
 })
 export class SearchBox {
@@ -9,13 +9,6 @@ export class SearchBox {
   @Prop() term: string;
 
   @Event() onSearch: EventEmitter;
-
-  input(ev: Event): void {
-    const inputEl = ev.target as HTMLInputElement;
-    const value = inputEl.value;
-
-    this.onSearch.emit(value);
-  }
 
   render(): JSX.Element {
     let suggest = this.term;
@@ -28,5 +21,12 @@ export class SearchBox {
       <input disabled class="query suggest" type="text" value={ suggest || '' } />,
       <input autoFocus class="query" type="search" onInput={ (ev) => this.input(ev) } autoComplete="off" role="search" />
     ]);
+  }
+
+  input(ev: Event): void {
+    const inputEl = ev.target as HTMLInputElement;
+    const value = inputEl.value;
+
+    this.onSearch.emit(value);
   }
 }
