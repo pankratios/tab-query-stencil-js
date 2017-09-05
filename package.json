@@ -2,7 +2,7 @@
   "name": "tab-query-stencil",
   "private": true,
   "version": "0.0.1",
-  "description": "Tab query with stenciljs",
+  "description": "TabQuery with stencil",
   "files": [
     "dist"
   ],
