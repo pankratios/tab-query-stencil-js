@@ -1,7 +1,8 @@
 export const KEY_MAP: { [key: string]: string } = {
-  Enter: 'enter',
-  ArrowDown: 'down',
-  mk: 'down',
-  ArrowUp: 'up',
-  mi: 'up'
+  ESCAPE: 'CLOSE',
+  ENTER: 'ACTIVATE',
+  ARROWDOWN: 'NEXT',
+  MK: 'NEXT',
+  ARROWUP: 'PREV',
+  MI: 'PREV'
 };
