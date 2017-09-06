@@ -1,5 +1,5 @@
 import { Component, Listen, State } from '@stencil/core';
-import { getAll, activate } from './tab-manager';
+import { getAll, activate, queryHistory } from './tab-manager';
 import { Tab } from './tab';
 import { nextIndex, prevIndex } from './math';
 import { KEY_MAP } from './key-map';
@@ -21,6 +21,9 @@ export class Tabs {
 
   componentDidLoad(): void {
     getAll().then((tabs) => this.tabs = this.filteredTabs = tabs);
+
+    // get suggests from history
+    queryHistory('wog', 1).then((historyItems) => console.info(historyItems));
   }
 
   render(): JSX.Element {
