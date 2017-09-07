@@ -4,5 +4,6 @@ export const KEY_MAP: { [key: string]: string } = {
   ARROWDOWN: 'NEXT',
   MK: 'NEXT',
   ARROWUP: 'PREV',
-  MI: 'PREV'
+  MI: 'PREV',
+  TAB: 'COMPLETE'
 };

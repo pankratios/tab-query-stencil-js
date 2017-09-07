@@ -33,6 +33,10 @@ export const activate = (tab: Tab): void => {
   chromeTabs().update(tab.id, { active: true });
 }
 
+export const create = (url: string): void => {
+  chromeTabs().create({ url, active: true });
+}
+
 const convertTab = (tab: chrome.tabs.Tab): Tab => {
   const { title, id, highlighted, favIconUrl } = tab;
 

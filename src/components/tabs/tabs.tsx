@@ -1,5 +1,5 @@
 import { Component, Listen, State } from '@stencil/core';
-import { getAll, activate, queryHistory } from './tab-manager';
+import { activate, create, getAll, queryHistory } from './tab-manager';
 import { Tab } from './tab';
 import { nextIndex, prevIndex } from './math';
 import { KEY_MAP } from './key-map';
@@ -12,6 +12,7 @@ export class Tabs {
   @State() tabs: Tab[] = [];
   @State() selectedIndex = 0;
   @State() search: { term: string, test: RegExp };
+  @State() suggest: { term: string, url: string };
 
   filteredTabs: Tab[] = [];
 
@@ -21,15 +22,14 @@ export class Tabs {
 
   componentDidLoad(): void {
     getAll().then((tabs) => this.tabs = this.filteredTabs = tabs);
-
-    // get suggests from history
-    queryHistory('wog', 1).then((historyItems) => console.info(historyItems));
   }
 
   render(): JSX.Element {
     const tabs = this.filteredTabs;
-    const suggest = tabs.length && tabs[0].title;
+    /* const suggest = tabs.length && tabs[0].title;*/
     const term = this.search ? this.search.term : '';
+    const suggest = this.suggest ? this.suggest.term : '';
+    console.log('render', suggest);
 
     return ([
       <tq-search-box suggest={ suggest } term={ term }></tq-search-box>,
@@ -45,6 +45,21 @@ export class Tabs {
 
     this.search = { term, test: new RegExp(ev.detail, 'i') };
     this.filteredTabs = this.search ? this.tabs.filter((tab) => this.search.test.test(tab.title)) : this.tabs;
+    /* if (!this.filteredTabs.length) {*/
+    console.time ('inputchanged');
+    if (term.length >= 3) {
+      queryHistory(term, 1).then(([suggest]) => {
+        console.timeEnd('inputchanged');
+        console.time('parse');
+        if (suggest) {
+          const url = suggest.url.match(/https?\:\/{2}[^\/|$]+/)[0];
+          this.suggest = { url, term: url.substring(url.indexOf(term)) };
+        } else {
+          this.suggest = { url: '', term: '' };
+        }
+      })
+    }
+    /* }*/
   }
 
   @Listen('window:keydown')
@@ -63,6 +78,8 @@ export class Tabs {
       case 'ACTIVATE':
         activate(this.selected);
         break;
+      case 'COMPLETE':
+        create(this.suggest.url);
       case 'PREV':
         this.selectedIndex = prevIndex(this.selectedIndex, this.filteredTabs.length - 1);
         // up

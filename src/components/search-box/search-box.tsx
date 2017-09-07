@@ -11,14 +11,10 @@ export class SearchBox {
   @Event() onSearch: EventEmitter;
 
   render(): JSX.Element {
-    let suggest = this.term;
-
-    if (this.suggest) {
-      suggest = this.term + this.suggest.substring(this.term.length);
-    }
+    console.log(this.suggest);
 
     return ([
-      <input disabled class="query suggest" type="text" value={ suggest || '' } />,
+      <input disabled class="query suggest" type="text" value={ this.suggest } />,
       <input autoFocus class="query" type="search" onInput={ (ev) => this.input(ev) } autoComplete="off" role="search" />
     ]);
   }
