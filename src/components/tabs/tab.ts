@@ -1,6 +1,7 @@
 export interface Tab {
   id: number;
   title: string;
-  highlighted: boolean;
+  highlighted?: boolean;
+  url?: string;
   favIconUrl: string;
 }

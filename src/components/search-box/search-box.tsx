@@ -6,15 +6,12 @@ import { Component, Event, EventEmitter, Prop } from '@stencil/core';
 })
 export class SearchBox {
   @Prop() suggest: string;
-  @Prop() term: string;
 
   @Event() onSearch: EventEmitter;
 
   render(): JSX.Element {
-    console.log(this.suggest);
-
     return ([
-      <input disabled class="query suggest" type="text" value={ this.suggest } />,
+      <div class="query suggest">{ this.suggest }<br /></div>,
       <input autoFocus class="query" type="search" onInput={ (ev) => this.input(ev) } autoComplete="off" role="search" />
     ]);
   }
