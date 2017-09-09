@@ -20,9 +20,9 @@ export const getAll = (): Promise<Tab[]> => {
   return tabs;
 }
 
-export const queryHistory = (text: string, maxResults = 1): Promise<Tab[]> => {
+export const queryHistory = (text: string, startTime, maxResults = 1): Promise<Tab[]> => {
   const historyItems = new Promise((resolve) => {
-    chromeHistory().search({ text, maxResults }, (historyItems: chrome.history.HistoryItem[]) => resolve(historyItems));
+    chromeHistory().search({ text, startTime, maxResults }, (historyItems: chrome.history.HistoryItem[]) => resolve(historyItems));
   })
     .then((historyItems: chrome.history.HistoryItem[]) => historyItems.map(convertTab));
 

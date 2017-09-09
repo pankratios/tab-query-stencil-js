@@ -1,10 +1,10 @@
 exports.config = {
   bundles: [
-    { components: ['tq-tabs', 'tq-search-box'] }
+    { components: ['tq-list', 'tq-search'] }
   ]
 };
 
 exports.devServer = {
   root: 'www',
   watchGlob: '**/**'
-}
+};

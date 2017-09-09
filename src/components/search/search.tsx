@@ -1,18 +1,18 @@
 import { Component, Event, EventEmitter, Prop } from '@stencil/core';
 
 @Component({
-  tag: 'tq-search-box',
-  styleUrl: 'search-box.scss'
+  tag: 'tq-search',
+  styleUrl: 'search.scss'
 })
-export class SearchBox {
+export class Search {
   @Prop() suggest: string;
 
   @Event() onSearch: EventEmitter;
 
   render(): JSX.Element {
     return ([
-      <div class="query suggest">{ this.suggest }<br /></div>,
-      <input autoFocus class="query" type="search" onInput={ (ev) => this.input(ev) } autoComplete="off" role="search" />
+      <div class="tq-search__field tq-search__field--suggest">{ this.suggest }<br /></div>,
+      <input autoFocus class="tq-search__field" type="search" onInput={ (ev) => this.input(ev) } autoComplete="off" role="search" />
     ]);
   }
 

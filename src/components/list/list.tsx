@@ -1,14 +1,14 @@
 import { Component, Listen, State } from '@stencil/core';
-import { activate, create, getAll, queryHistory } from './tab-manager';
-import { Tab } from './tab';
-import { nextIndex, prevIndex } from './math';
-import { KEY_MAP } from './key-map';
+import { activate, create, getAll, queryHistory } from './../tabs/utils/tab-manager';
+import { Tab } from './../tabs/utils/tab';
+import { nextIndex, prevIndex } from './../tabs/utils/math';
+import { KEY_MAP } from './../tabs/utils/key-map';
 
 @Component({
-  tag: 'tq-tabs',
-  styleUrl: 'tabs.scss'
+  tag: 'tq-list',
+  styleUrl: 'list.scss'
 })
-export class Tabs {
+export class List {
   @State() selectedIndex = 0;
   @State() filteredTabs: Tab[] = [];
   @State() suggest: { term: string, url: string };
@@ -16,6 +16,7 @@ export class Tabs {
   tabs: Tab[] = [];
   maxHistoryItmes = 5;
   minInputLength = 2;
+  sinceDays = 3;
 
   get selected(): Tab {
     return this.filteredTabs[this.selectedIndex];
@@ -30,9 +31,9 @@ export class Tabs {
     const suggest = this.suggest ? this.suggest.term : '';
 
     return ([
-      <tq-search-box suggest={ suggest }></tq-search-box>,
-      <div class="container">
-        <ul class="list">{ this.filteredTabs.map((tab, index) => renderTab(tab, index === this.selectedIndex)) }</ul>
+      <tq-search suggest={ suggest }></tq-search>,
+      <div class="tq-list__container">
+        <ul class="tq-list__list">{ this.filteredTabs.map((tab, index) => renderTab(tab, index === this.selectedIndex)) }</ul>
       </div>
     ]);
   }
@@ -65,7 +66,9 @@ export class Tabs {
   updateSuggest(term: string): void {
     if (term.length < this.minInputLength) return;
 
-    queryHistory(term, this.maxHistoryItmes)
+    const startTime = Date.now() - 86400000 * this.sinceDays;
+
+    queryHistory(term, startTime, this.maxHistoryItmes)
       .then(suggests => {
         let suggest;
 
@@ -105,8 +108,8 @@ export class Tabs {
       case 'NEXT':
         this.selectedIndex = nextIndex(this.selectedIndex, this.filteredTabs.length - 1);
         break;
-      default:
-        throw `Action ${action} not supported`;
+        /* default:
+         *   throw `Action ${action} not supported`;*/
     }
   }
 }
@@ -114,9 +117,9 @@ export class Tabs {
 const renderTab = (tab: Tab, selected: boolean): JSX.Element => {
   const styles = tab.favIconUrl ? { backgroundImage: `url(${tab.favIconUrl})` } : {};
   const classes = {
-    item: true,
-    'item--selected': selected,
-    'item--highlighted': tab.highlighted
+    'tq-list__item': true,
+    'tq-list__item--selected': selected,
+    'tq-list__item--highlighted': tab.highlighted
   };
 
   return (<li style={ styles } class={ classes }>{ tab.title }</li>);
