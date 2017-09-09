@@ -29,8 +29,8 @@ export const queryHistory = (text: string, startTime, maxResults = 1): Promise<T
   return historyItems;
 }
 
-export const activate = (tab: Tab): void => {
-  chromeTabs().update(tab.id, { active: true });
+export const activate = (id: number): void => {
+  chromeTabs().update(id, { active: true });
 }
 
 export const create = (url: string): void => {

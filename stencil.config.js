@@ -1,6 +1,6 @@
 exports.config = {
   bundles: [
-    { components: ['tq-list', 'tq-search'] }
+    { components: ['tq-tabs', 'tq-list', 'tq-search'] }
   ]
 };
 
