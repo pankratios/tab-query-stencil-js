@@ -29,5 +29,10 @@ const renderTab = (tab: Tab, selected: boolean): JSX.Element => {
     'tq-list__item--highlighted': tab.highlighted
   };
 
-  return (<li style={ styles } class={ classes }>{ tab.title }</li>);
+  return (
+    <li style={ styles } class={ classes }>
+      <h1 class="tq-list__heading">{ tab.title }</h1>
+      <h2 class="tq-list__sub">{ tab.url }</h2>
+    </li>
+  );
 }
