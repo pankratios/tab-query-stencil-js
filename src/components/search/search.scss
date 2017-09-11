@@ -28,7 +28,14 @@
 
       color: #ccc;
 
+      overflow: hidden;
+
       background-color: #fff;
+
+      /* &:after { */
+      /*   font-size: 0.9rem; */
+      /*   content: 'press \21E5  to open'; */
+      /* } */
     }
   }
 }

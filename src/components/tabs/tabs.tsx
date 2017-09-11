@@ -37,16 +37,7 @@ export class Tabs {
 
   @Listen('onSearch')
   onSearch(ev: CustomEvent): void {
-    const term = ev.detail;
-    const searchPattern = new RegExp(ev.detail, 'i');
-
-    this.items = searchPattern ? this.tabs.filter((tab) => searchPattern.test(tab.title)) : this.tabs;
-
-    if (!this.items.length) {
-      this.updateSuggest(term);
-    } else {
-      this.suggest = undefined;
-    }
+    this.search(ev.detail);
   }
 
   @Listen('window:keydown')
@@ -60,22 +51,40 @@ export class Tabs {
     this.execKeyAction(KEY_MAP[key]);
   }
 
+  search(term: string): void {
+    const searchPattern = new RegExp(term, 'i');
+
+    this.items = searchPattern ? this.tabs.filter((tab) => searchPattern.test(tab.title) || searchPattern.test(tab.url)) : this.tabs;
+
+    if (!this.items.length) {
+      this.updateSuggest(term);
+    } else {
+      this.suggest = undefined;
+    }
+  }
+
   updateSuggest(term: string): void {
-    if (term.length < this.minInputLength) return;
+    if (term.length < this.minInputLength) {
+      this.suggest = undefined;
+    } else {
+      const startTime = Date.now() - 86400000 * this.sinceDays;
 
-    const startTime = Date.now() - 86400000 * this.sinceDays;
+      queryHistory(term, startTime, this.maxHistoryItmes)
+        .then(suggests => {
+          // if there are items in the list (the input has changed) since this promise was called it needs to be canceled (what we can do)
+          if (!this.items.length) {
+            let suggest;
 
-    queryHistory(term, startTime, this.maxHistoryItmes)
-      .then(suggests => {
-        let suggest;
+            if (suggests.length) {
+              suggest = this.findSuggest(term, suggests[0])
+              this.items = suggests;
+            }
+            this.suggest = suggest;
 
-        if (suggests.length) {
-          this.items = suggests;
-          suggest = this.findSuggest(term, suggests[0])
-        }
-
-        this.suggest = suggest;
-      })
+            console.log(this.suggest);
+          }
+        });
+    }
   }
 
   findSuggest(term: string, suggest: Tab): any {
