@@ -1,53 +1,50 @@
 import { Tab } from './tab';
-// import { HistoryItem } from './history-item';
+import { Observable } from 'rxjs/RX';
 
-export const query = (currentWindow = true): Promise<Tab[]> => {
-  const options = { currentWindow: currentWindow };
-  const tabs = new Promise((resolve) => {
-    chromeTabs().query(options, (tabs: chrome.tabs.Tab[]) => resolve(tabs));
-  })
-    .then((tabs: chrome.tabs.Tab[]) => tabs.map(convertTab));
+// export const query = (currentWindow = true): Promise<Tab[]> => {
+//   const options = { currentWindow: currentWindow };
+//   const tabs = new Promise((resolve) => {
+//     chromeTabs().query(options, (tabs: chrome.tabs.Tab[]) => resolve(tabs));
+//   })
+//     .then((tabs: chrome.tabs.Tab[]) => tabs.map(convertTab));
 
-  return tabs;
-}
+//   return tabs;
+// };
 
-export const getAll = (): Promise<Tab[]> => {
-  const tabs = new Promise((resolve) => {
-    chromeTabs().getAllInWindow((tabs: chrome.tabs.Tab[]) => resolve(tabs));
-  })
-    .then((tabs: chrome.tabs.Tab[]) => tabs.map(convertTab));
+export const getAll = (): Observable<Tab[]> => {
+  const all = Observable.bindCallback<chrome.tabs.Tab[]>((
+    callback: (tabs: chrome.tabs.Tab[]) => void
+  ) => chromeTabs().getAllInWindow(callback));
 
-  return tabs;
-}
+  return all()
+    .map((tabs: chrome.tabs.Tab[]) => tabs.map(convertTab));
+};
 
-export const queryHistory = (text: string, startTime, maxResults = 1): Promise<Tab[]> => {
-  const historyItems = new Promise((resolve) => {
-    chromeHistory().search({ text, startTime, maxResults }, (historyItems: chrome.history.HistoryItem[]) => resolve(historyItems));
-  })
-    .then((historyItems: chrome.history.HistoryItem[]) => historyItems.map(convertTab));
+export const queryHistory = (text: string, startTime, maxResults = 1): Observable<Tab[]> => {
+  const search = Observable.bindCallback((
+    text: string,
+    startTime: number,
+    maxResults: number,
+    callback: (historyItems: chrome.history.HistoryItem[]) => void
+  ) => chromeHistory().search({text, startTime, maxResults}, callback));
 
-  return historyItems;
-}
+  return search(text, startTime, maxResults)
+    .map(historyItems => historyItems.map(convertTab));
+};
 
 export const activate = (id: number): void => {
   chromeTabs().update(id, { active: true });
-}
+};
 
 export const create = (url: string): void => {
   chromeTabs().create({ url, active: true });
-}
+};
 
 const convertTab = (tab: any): Tab => {
   const { title, id, favIconUrl, url, highlighted } = tab;
 
   return { title, id, favIconUrl, highlighted, url };
-}
-
-// const convertHistoryItem = (historyItem: chrome.history.HistoryItem): HistoryItem => {
-//   const { title, url } = historyItem;
-
-//   return { title, url };
-// }
+};
 
 const chromeTabs = (): any => chrome.tabs || chromeTabsStub;
 const chromeHistory = (): any => chrome.history || chromeHistoryStub;
@@ -70,6 +67,7 @@ const chromeTabsStub = {
   update: (tabId, opts) => {
     console.info('chrome stub update tab: ', tabId, opts);
   },
-  query: (_, callback) => callback(tabsStub),
+  // query: (_, callback) => callback(tabsStub),
+  all: (callback) => callback(tabsStub),
   getAllInWindow: (callback) => callback(tabsStub),
-}
+};

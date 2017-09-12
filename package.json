@@ -13,7 +13,8 @@
     "start": "npm run dev"
   },
   "dependencies": {
-    "@stencil/core": "next"
+    "@stencil/core": "next",
+    "rxjs": "^5.4.3"
   },
   "devDependencies": {
     "@stencil/dev-server": "latest",
