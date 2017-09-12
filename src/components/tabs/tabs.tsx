@@ -1,22 +1,23 @@
-import { Component, Listen, State } from '@stencil/core';
+import { Component, Listen, Prop, State } from '@stencil/core';
 
 import { activate, create, getAll, queryHistory } from './utils/tab-manager';
 import { Tab } from './utils/tab';
-import { nextIndex, prevIndex } from './utils/math';
+import { nextIndex, prevIndex, daysInMilliseconds } from './utils/math';
 import { KEY_MAP } from './utils/key-map';
 
 @Component({
   tag: 'tq-tabs'
 })
 export class Tabs {
-  @State() selectedIndex = 0;
+  @Prop() maxHistoryItmes: number = 5;
+  @Prop() minInputLength: number = 2;
+  @Prop() historySinceDays: number = 3;
+
+  @State() selectedIndex: number = 0;
   @State() items: Tab[] = [];
   @State() suggest: { term: string, url: string };
 
   tabs: Tab[] = [];
-  maxHistoryItmes = 5;
-  minInputLength = 2;
-  sinceDays = 3;
 
   get selected(): Tab {
     return this.items[this.selectedIndex];
@@ -67,7 +68,7 @@ export class Tabs {
     if (term.length < this.minInputLength) {
       this.suggest = undefined;
     } else {
-      const startTime = Date.now() - 86400000 * this.sinceDays;
+      const startTime = Date.now() - daysInMilliseconds(this.historySinceDays);
 
       queryHistory(term, startTime, this.maxHistoryItmes)
         .then(suggests => {

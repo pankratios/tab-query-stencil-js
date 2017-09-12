@@ -5,3 +5,7 @@ export const prevIndex = (index: number, max: number, cycle = false): number => 
 export const nextIndex = (index: number, max: number, cycle = false): number => {
   return max - index ? index + 1 : cycle ? 0 : index;
 }
+
+export const daysInMilliseconds = (days: number): number => {
+  return 86400000 * days;
+}

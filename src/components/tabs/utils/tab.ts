@@ -1,7 +1,7 @@
 export interface Tab {
   id: number;
   title: string;
+  url: string;
   highlighted?: boolean;
-  url?: string;
-  favIconUrl: string;
+  favIconUrl?: string;
 }
