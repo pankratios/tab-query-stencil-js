@@ -20,7 +20,7 @@ const searchTabs = (term: string, tabs: Tab[]): Tab[] => {
   const pattern = new RegExp(term, 'i');
 
   return tabs.filter(tab => pattern.test(tab.title) || pattern.test(tab.url));
-}
+};
 
 const findSuggest = (term: string, suggests: Tab[]): { url: string, term: string } | undefined => {
   const suggest = suggests.find((suggest) => {

@@ -36,6 +36,15 @@
       /*   font-size: 0.9rem; */
       /*   content: 'press \21E5  to open'; */
       /* } */
+      & span {
+        &:not(:empty):after {
+          opacity: 1;
+          color: #cdcdcd;
+          font-size: 1rem;
+          margin-left: 1rem;
+          content: 'press \21e5  to open';
+        }
+      }
     }
   }
 }
