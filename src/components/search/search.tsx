@@ -11,7 +11,7 @@ export class Search {
 
   render(): JSX.Element {
     return ([
-      <div class="tq-search__field tq-search__field--suggest"><span>{ this.suggest }</span><br /></div>,
+      <div class="tq-search__field tq-search__field--suggest"><span>{ this.suggest }</span><div class="tq-search__hint">press <b>⇥ </b> to open</div><br /></div>,
       <input autoFocus placeholder="search..." class="tq-search__field" type="search" onInput={ (ev) => this.input(ev) } autoComplete="off" role="search" />
     ]);
   }

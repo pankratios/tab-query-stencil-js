@@ -32,19 +32,37 @@
 
       background-color: #fff;
 
+      & span:not(:empty) + .tq-search__hint {
+        opacity: 1;
+      }
       /* &:after { */
       /*   font-size: 0.9rem; */
       /*   content: 'press \21E5  to open'; */
       /* } */
-      & span {
-        &:not(:empty):after {
-          opacity: 1;
-          color: #cdcdcd;
-          font-size: 1rem;
-          margin-left: 1rem;
-          content: 'press \21e5  to open';
-        }
-      }
+      /* & span { */
+      /*   &:not(:empty):after { */
+
+      /*     color: #cdcdcd; */
+      /*     font-size: 1rem; */
+      /*     margin-left: 1rem; */
+      /*     content: 'press \21e5  to open'; */
+      /*   } */
+      /* } */
     }
+  }
+  &__hint {
+    position: absolute;
+
+    top: 0;
+    right: 3rem;
+
+    opacity: 0;
+
+    transition: opacity 200ms;
+
+    color: #aaa;
+    font-size: 0.8rem;
+    font-weight: 300;
+    line-height: 2.5rem;
   }
 }
