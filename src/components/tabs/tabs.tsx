@@ -8,40 +8,6 @@ import { Tab } from './utils/tab';
 import { nextIndex, prevIndex, daysInMilliseconds } from './utils/math';
 import { KEY_MAP } from './utils/key-map';
 
-const findSuggestPattern = /https?\:\/{2}(?:\w{2,3}\.)?([^\/|$]+)/i;
-
-const searchHistory = (term: string, sinceDays?: number, maxItems?: number): Observable<Tab[]> => {
-  const startTime = Date.now() - daysInMilliseconds(sinceDays);
-
-  return queryHistory(term, startTime, maxItems);
-};
-
-const searchTabs = (term: string, tabs: Tab[]): Tab[] => {
-  const pattern = new RegExp(term, 'i');
-
-  return tabs.filter(tab => pattern.test(tab.title) || pattern.test(tab.url));
-};
-
-const findSuggest = (term: string, suggests: Tab[]): { url: string, term: string } | undefined => {
-  const suggest = suggests.find((suggest) => {
-    const urlMatch = suggest.url.match(findSuggestPattern);
-    const suggestTerm = urlMatch[1];
-    const index = suggestTerm.indexOf(term);
-
-    return index === 0;
-  })
-
-  if (suggest) {
-    const urlMatch = suggest.url.match(findSuggestPattern);
-    const url = urlMatch[0];
-    const suggestTerm = urlMatch[1];
-
-    return { url, term: suggestTerm };
-  }
-
-  return undefined;
-};
-
 @Component({
   tag: 'tq-tabs'
 })
@@ -90,7 +56,7 @@ export class Tabs {
 
     const action = KEY_MAP[key];
     if (action) {
-      this.execKeyAction(action);
+      this.execAction(action);
     }
   }
 
@@ -103,6 +69,7 @@ export class Tabs {
 
     if (!this.items.length) {
       this.subs = searchHistory(term, this.historySinceDays, this.maxHistoryItmes)
+        .take(1)
         .subscribe(suggests => this.updateList(term, suggests));
     }
   }
@@ -117,8 +84,8 @@ export class Tabs {
     }
   }
 
-  execKeyAction(action: string): void {
-    switch(action) {
+  execAction(actionName: string): void {
+    switch(actionName) {
       case 'CLOSE':
         window.close();
         break;
@@ -141,7 +108,42 @@ export class Tabs {
         this.selectedIndex = nextIndex(this.selectedIndex, this.items.length - 1);
         break;
       default:
-        throw `Action ${action} not supported`;
+        throw `Action ${actionName} not supported`;
     }
   }
 }
+
+
+const findSuggestPattern = /https?\:\/{2}(?:\w{2,3}\.)?([^\/|$]+)/i;
+
+const searchHistory = (term: string, sinceDays?: number, maxItems?: number): Observable<Tab[]> => {
+  const startTime = Date.now() - daysInMilliseconds(sinceDays);
+
+  return queryHistory(term, startTime, maxItems);
+};
+
+const searchTabs = (term: string, tabs: Tab[]): Tab[] => {
+  const pattern = new RegExp(term, 'i');
+
+  return tabs.filter(tab => pattern.test(tab.title) || pattern.test(tab.url));
+};
+
+const findSuggest = (term: string, suggests: Tab[]): { url: string, term: string } | undefined => {
+  const suggest = suggests.find((suggest) => {
+    const urlMatch = suggest.url.match(findSuggestPattern);
+    const suggestTerm = urlMatch[1];
+    const index = suggestTerm.indexOf(term);
+
+    return index === 0;
+  })
+
+  if (suggest) {
+    const urlMatch = suggest.url.match(findSuggestPattern);
+    const url = urlMatch[0];
+    const suggestTerm = urlMatch[1];
+
+    return { url, term: suggestTerm };
+  }
+
+  return undefined;
+};

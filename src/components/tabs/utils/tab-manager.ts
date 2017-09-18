@@ -1,16 +1,6 @@
 import { Tab } from './tab';
 import { Observable } from 'rxjs/RX';
 
-// export const query = (currentWindow = true): Promise<Tab[]> => {
-//   const options = { currentWindow: currentWindow };
-//   const tabs = new Promise((resolve) => {
-//     chromeTabs().query(options, (tabs: chrome.tabs.Tab[]) => resolve(tabs));
-//   })
-//     .then((tabs: chrome.tabs.Tab[]) => tabs.map(convertTab));
-
-//   return tabs;
-// };
-
 export const getAll = (): Observable<Tab[]> => {
   const all = Observable.bindCallback<chrome.tabs.Tab[]>((
     callback: (tabs: chrome.tabs.Tab[]) => void
@@ -42,6 +32,7 @@ export const create = (url: string): void => {
 
 const convertTab = (tab: any): Tab => {
   const { title, id, favIconUrl, url, highlighted } = tab;
+
 
   return { title, id, favIconUrl, highlighted, url };
 };

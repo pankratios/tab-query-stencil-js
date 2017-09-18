@@ -3,19 +3,19 @@
     box-sizing: border-box;
 
     position: absolute;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
 
     width: 100%;
 
-    border: 1px solid #fff;
+    border: 1px solid white;
 
     padding: 0.4rem 1rem;
-    margin: 0px;
+    margin: 0;
 
     background-color: transparent;
 
-    border: 1px solid #fff;
+    border: 1px solid white;
 
     font-size: 1.3rem;
     font-family: "Myriad Set Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -26,28 +26,15 @@
     &--suggest {
       position: static;
 
-      color: #ccc;
-
       overflow: hidden;
 
-      background-color: #fff;
+      background-color: white;
+
+      color: var(--nobel, silver);
 
       & span:not(:empty) + .tq-search__hint {
         opacity: 1;
       }
-      /* &:after { */
-      /*   font-size: 0.9rem; */
-      /*   content: 'press \21E5  to open'; */
-      /* } */
-      /* & span { */
-      /*   &:not(:empty):after { */
-
-      /*     color: #cdcdcd; */
-      /*     font-size: 1rem; */
-      /*     margin-left: 1rem; */
-      /*     content: 'press \21e5  to open'; */
-      /*   } */
-      /* } */
     }
   }
   &__hint {
@@ -60,7 +47,7 @@
 
     transition: opacity 200ms;
 
-    color: #aaa;
+    color: var(--alabaster, gray);
     font-size: 0.8rem;
     font-weight: 300;
     line-height: 2.5rem;

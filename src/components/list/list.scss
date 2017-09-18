@@ -22,147 +22,50 @@
     list-style-type: none;
   }
   &__item {
-    position: relative;
-
     box-sizing: border-box;
+
+    position: relative;
 
     padding: 0 1rem 0.2rem 2.3rem;
     margin: 0;
 
-    /* background-color: rgba(255, 255, 255, 0.2); */
-    /* background-image: none !important; */
-    /* filter: grayscale(100%); */
     background-position: top 8px left 0.8rem;
     background-size: 15px 15px;
     background-repeat: no-repeat;
 
-    border-bottom: 1px solid #efefef;
+    border-bottom: 1px solid var(--alabaster, gray);
 
     overflow: hidden;
 
     &:first-child {
-      border-top: 1px solid #efefef;
+      border-top: 1px solid var(--alabaster, gray);
     }
-    /* &:before { */
-    /*   position: absolute; */
-    /*   left: 0px; */
-    /*   top: 25%; */
-    /*   display: block; */
-    /*   content: ' '; */
-    /*   width: 5px; */
-    /*   height: 50%; */
-
-    /*   /\* background-color: #ff0081; *\/ */
-
-    /*   /\* transition: background-color 300ms linear; *\/ */
-    /* } */
     &--highlighted {
-      background-color: #efefef;
-      color: #333;
-      /* border-left: 5px solid #000; */
+      background-color: var(--alabaster, gray);
+      color: var(--tundora, black);
     }
     &--selected {
-      /*   padding-left: 1.2rem; */
-      /* border-bottom-color: #ff0081; */
-      background-color: #333;
-      color: #fff;
-      /* border-left: 5px solid #ff0081; */
+      background-color: var(--tundora, black);;
+      color: white;
     }
-    /* &--selected:before { */
-    /*   background-color: #ff0081; */
-    /* } */
-    /* &--highlighted:before { */
-    /*   background-color: #000; */
-    /*   /\* background-color: rgba(255, 255, 255, 0.7); *\/ */
-
-    /*   /\* color: #333; *\/ */
-    /* } */
   }
   &__heading {
-    font-size: 0.8rem;
-    font-weight: 500;
-
     overflow-x: hidden;
 
+    font-size: 0.8rem;
+    font-weight: 500;
     white-space: nowrap;
     word-break: break-all;
     text-overflow: ellipsis;
   }
   &__sub {
-    font-size: 0.7rem;
-    font-weight: normal;
-
     overflow-x: hidden;
 
-    color: #b3b3b3;
+    color: var(--nobel, silver);
+    font-size: 0.7rem;
+    font-weight: normal;
     white-space: nowrap;
     word-break: break-all;
     text-overflow: ellipsis;
   }
 }
-
-
-  /* .item:before { */
-  /*   display: block; */
-  /*   background: left top / 20px 20px no-repeat; */
-  /*   content: attr(data-icon); */
-  /* } */
-
-  /* .item:after { */
-  /*     content: attr(data-tabnr); */
-  /*     position: absolute; */
-  /*     left: 0.1em; */
-  /*     top: 0.1em; */
-  /*     display: block; */
-  /*     /\* width: 25px; *\/ */
-  /*     text-align: left; */
-  /*     font-weight: 200; */
-  /*     font-size: 0.5rem; */
-  /*     color: #888; */
-  /*     /\* opacity: 0.2; *\/ */
-  /* } */
-
-  /* .item:nth-child(-1n+10):after { */
-  /*   display: block; */
-  /*   font-size: 0.8rem; */
-  /*   counter-increment: skey; */
-  /*   content: '\2318' counter(skey); */
-  /* } */
-
-  /* .item-container { */
-  /*   background: left top / 20px 20px no-repeat; */
-  /*   min-height: 20px; */
-  /*   padding-left: 30px; */
-  /* } */
-
-  /* .item-title { */
-  /*   margin: 0px; */
-  /*   padding: 0px; */
-  /*   font-size: 1rem; */
-  /*   font-weight: 200; */
-  /* } */
-
-  /* .item-desc { */
-  /*   display: none; */
-  /*   margin: 0.5rem 0; */
-  /*   padding: 0; */
-  /*   font-size: 0.8rem; */
-  /*   /\* color: #333; *\/ */
-  /*   line-height: 1.45; */
-  /*   font-weight: 400; */
-  /* } */
-
-  /* .item-selected .item-desc { */
-  /*   display: block; */
-  /* } */
-
-  /* body:before { */
-  /*   position: absolute; */
-  /*   bottom: 0px; */
-  /*   right: 0px; */
-  /*   color: rgba(255, 255, 255, 0.2); */
-  /*   font-size: 0.5rem; */
-  /*   font-weight: 300; */
-  /*   padding: 0.3rem 0.4rem; */
-  /*   content: '\00A9  2013 pankratios'; */
-  /* } */
