@@ -1,4 +1,4 @@
-import { Component, Listen, Prop, State } from '@stencil/core';
+import { Component, Element, Listen, Prop, State } from '@stencil/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription  } from 'rxjs/Subscription';
 /* import 'rxjs/add/operator/take';*/
@@ -19,6 +19,8 @@ export class Tabs {
   @State() selectedIndex: number = 0;
   @State() items: Tab[] = [];
   @State() suggest: { term: string, url: string };
+
+  @Element() listEl: HTMLElement;
 
   tabs: Tab[] = [];
   subs: Subscription;
@@ -65,6 +67,7 @@ export class Tabs {
       this.subs.unsubscribe();
     }
 
+    this.selectedIndex = 0;
     this.updateList(term, term.length ? searchTabs(term, this.tabs) : this.tabs);
 
     if (!this.items.length) {
@@ -82,6 +85,17 @@ export class Tabs {
     } else {
       this.suggest = findSuggest(term, this.items);
     }
+  }
+
+  changeSelectedIndex(next = true): void {
+    const maxIndex = this.items.length - 1;
+    const index = next ? nextIndex(this.selectedIndex, maxIndex, true) : prevIndex(this.selectedIndex, maxIndex, true);
+
+    // seems to be faster than querySelector(`.tq-list__item:nth-child(${index + 1})`);
+    const selectedEl = this.listEl.querySelectorAll('.tq-list__item')[index];
+
+    selectedEl.scrollIntoView({ behavior: 'instant', block: 'nearest' });
+    this.selectedIndex = index;
   }
 
   execAction(actionName: string): void {
@@ -102,10 +116,10 @@ export class Tabs {
           create(this.suggest.url);
         }
       case 'PREV':
-        this.selectedIndex = prevIndex(this.selectedIndex, this.items.length - 1);
+        this.changeSelectedIndex(false);
         break;
       case 'NEXT':
-        this.selectedIndex = nextIndex(this.selectedIndex, this.items.length - 1);
+        this.changeSelectedIndex(true);
         break;
       default:
         throw `Action ${actionName} not supported`;
@@ -129,7 +143,7 @@ const searchTabs = (term: string, tabs: Tab[]): Tab[] => {
 };
 
 const findSuggest = (term: string, suggests: Tab[]): { url: string, term: string } | undefined => {
-  const suggest = suggests.find((suggest) => {
+  const suggest = suggests.find(suggest => {
     const urlMatch = suggest.url.match(findSuggestPattern);
     const suggestTerm = urlMatch[1];
     const index = suggestTerm.indexOf(term);
