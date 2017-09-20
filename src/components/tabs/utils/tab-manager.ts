@@ -7,7 +7,7 @@ export const getAll = (): Observable<Tab[]> => {
   ) => chromeTabs().getAllInWindow(callback));
 
   return all()
-    .map((tabs: chrome.tabs.Tab[]) => tabs.map(convertTab));
+    .map((tabs: chrome.tabs.Tab[]) => tabs.map(convertItem));
 };
 
 export const queryHistory = (text: string, startTime, maxResults = 1): Observable<Tab[]> => {
@@ -19,7 +19,7 @@ export const queryHistory = (text: string, startTime, maxResults = 1): Observabl
   ) => chromeHistory().search({text, startTime, maxResults}, callback));
 
   return search(text, startTime, maxResults)
-    .map(historyItems => historyItems.map(convertTab));
+    .map(historyItems => historyItems.map(convertItem));
 };
 
 export const activate = (id: number): void => {
@@ -30,8 +30,8 @@ export const create = (url: string): void => {
   chromeTabs().create({ url, active: true });
 };
 
-const convertTab = (tab: any): Tab => {
-  const { title, id, favIconUrl, url, highlighted } = tab;
+const convertItem = (item: any): Tab => {
+  const { title, id, favIconUrl, url, highlighted } = item;
 
 
   return { title, id, favIconUrl, highlighted, url };
@@ -58,7 +58,9 @@ const chromeTabsStub = {
   update: (tabId, opts) => {
     console.info('chrome stub update tab: ', tabId, opts);
   },
-  // query: (_, callback) => callback(tabsStub),
+  create: (tabId, opts) => {
+    console.info('chrome stub create tab: ', tabId, opts);
+  },
   all: (callback) => callback(tabsStub),
   getAllInWindow: (callback) => callback(tabsStub),
 };

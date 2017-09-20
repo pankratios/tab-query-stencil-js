@@ -1,7 +1,6 @@
 import { Component, Element, Listen, Prop, State } from '@stencil/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription  } from 'rxjs/Subscription';
-/* import 'rxjs/add/operator/take';*/
 
 import { activate, create, getAll, queryHistory } from './utils/tab-manager';
 import { Tab } from './utils/tab';
