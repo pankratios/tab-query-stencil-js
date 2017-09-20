@@ -15,14 +15,17 @@
 
     background-color: transparent;
 
-    border: 1px solid white;
+    box-shadow: 0px 0px 10px  var(--alabaster, red);
 
     font-size: 1.3rem;
-    font-family: "Myriad Set Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: var(--fontFamily, Arial);
     font-weight: 200;
 
     outline: none;
 
+    &::placeholder {
+      color: var(--nobel, red);
+    }
     &--suggest {
       position: static;
 
@@ -34,22 +37,20 @@
 
       & span:not(:empty) + .tq-search__hint {
         opacity: 1;
+
+
+        transition: opacity 200ms ease-out;
       }
     }
   }
   &__hint {
-    position: absolute;
-
-    top: 0;
-    right: 3rem;
+    padding-left: 0.5rem;
 
     opacity: 0;
 
-    transition: opacity 200ms;
-
-    color: var(--alabaster, gray);
+    color: var(--tundora, red);
     font-size: 0.8rem;
     font-weight: 300;
-    line-height: 2.5rem;
+    vertical-align: middle;
   }
 }

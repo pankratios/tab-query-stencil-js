@@ -26,19 +26,21 @@
 
     position: relative;
 
-    padding: 0 1rem 0.2rem 2.3rem;
+    padding: 0 1rem 0.2rem 1rem;
     margin: 0;
-
-    background-position: top 8px left 0.8rem;
-    background-size: 15px 15px;
-    background-repeat: no-repeat;
 
     border-bottom: 1px solid var(--alabaster, gray);
 
     overflow: hidden;
-
     &:first-child {
       border-top: 1px solid var(--alabaster, gray);
+    }
+    &--thumbnail {
+      padding-left: 2.3rem;
+
+      background-position: top 8px left 0.8rem;
+      background-size: 15px 15px;
+      background-repeat: no-repeat;
     }
     &--highlighted {
       background-color: var(--alabaster, gray);

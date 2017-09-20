@@ -25,6 +25,7 @@ const renderTab = (tab: Tab, selected: boolean): JSX.Element => {
   const styles = tab.favIconUrl ? { backgroundImage: `url(${tab.favIconUrl})` } : { };
   const classes = {
     'tq-list__item': true,
+    'tq-list__item--thumbnail': !!tab.favIconUrl,
     'tq-list__item--selected': selected,
     'tq-list__item--highlighted': tab.highlighted
   };

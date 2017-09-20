@@ -11,8 +11,11 @@ export class Search {
 
   render(): JSX.Element {
     return ([
-      <div class="tq-search__field tq-search__field--suggest"><span>{ this.suggest }</span><div class="tq-search__hint">press <b>⇥ </b> to open</div><br /></div>,
-      <input autoFocus placeholder="search..." class="tq-search__field" type="search" onInput={ (ev) => this.input(ev) } autoComplete="off" role="search" />
+      <div class="tq-search__field tq-search__field--suggest">
+        <span>{ this.suggest }</span>
+        <span class="tq-search__hint">Press <b>⇥ </b> to open in a new Tab</span><br />
+      </div>,
+      <input autoFocus placeholder="Search" class="tq-search__field" type="search" onInput={ (ev) => this.input(ev) } autoComplete="off" role="search" />
     ]);
   }
 

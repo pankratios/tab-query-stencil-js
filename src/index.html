@@ -4,6 +4,7 @@
     <title>tq - a super simple chrome tab browser</title>
     <style>
      :root {
+       --fontFamily: 'Myriad Set Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
        --alabaster: #efefef;
        --nobel: #b3b3b3;
        --tundora: #333;
@@ -15,13 +16,12 @@
      html {
        width: 400px;
        height: 100%;
-       margin: 0px;
-       padding: 0px;
-       background: #fff;
+       margin: 0;
+       padding: 0;
+       background-color: #fff;
      }
      body {
-       font-family: "Myriad Set Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
-       /* background: linear-gradient(105deg, #ff7425 40%, #ff9441 40%, #ff9441 50%, #ff9441 55%, #b62500 90%); */
+       font-family: var(--fontFamily);
      }
     </style>
     <script src="build/app.js"></script>
