@@ -9,15 +9,13 @@ import { Tab } from './../tabs/utils/tab';
 export class List {
   @Prop() selectedIndex = 0;
   @Prop() items: Tab[] = [];
-  @Prop() suggest: string;
 
   render(): JSX.Element {
-    return ([
-      <tq-search suggest={ this.suggest }></tq-search>,
+    return (
       <div class="tq-list__container">
         <ul class="tq-list__list">{ this.items.map((tab, index) => renderTab(tab, index === this.selectedIndex)) }</ul>
       </div>
-    ]);
+    );
   }
 }
 

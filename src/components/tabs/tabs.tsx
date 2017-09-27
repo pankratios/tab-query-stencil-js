@@ -35,10 +35,9 @@ export class Tabs {
   }
 
   render(): JSX.Element {
-    const suggest = this.suggest ? this.suggest.term : '';
-
     return ([
-      <tq-list items={ this.items } suggest={ suggest } selectedIndex={ this.selectedIndex }></tq-list>,
+      <tq-search suggest={ this.suggest ? this.suggest.term : '' }></tq-search>,
+      <tq-list items={ this.items } selectedIndex={ this.selectedIndex }></tq-list>,
     ]);
   }
 
