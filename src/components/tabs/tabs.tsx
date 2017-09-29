@@ -11,6 +11,7 @@ import { KEY_MAP } from './utils/key-map';
   tag: 'tq-tabs'
 })
 export class Tabs {
+  @Prop({ context: 'isServer' }) private isServer: boolean;
   @Prop() maxHistoryItmes: number = 5;
   @Prop() minInputLength: number = 2;
   @Prop() historySinceDays: number = 3;
@@ -29,9 +30,11 @@ export class Tabs {
   }
 
   componentDidLoad(): void {
-    getAll()
-      .take(1)
-      .subscribe(tabs => this.tabs = this.items = tabs);
+    if (!this.isServer) {
+      getAll()
+        .take(1)
+        .subscribe(tabs => this.tabs = this.items = tabs);
+    }
   }
 
   render(): JSX.Element {
