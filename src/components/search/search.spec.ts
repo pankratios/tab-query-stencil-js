@@ -1,4 +1,5 @@
 import { flush, render } from '@stencil/core/testing';
+
 import { Search } from './search';
 
 describe('Search', () => {
@@ -6,7 +7,7 @@ describe('Search', () => {
     expect(new Search()).toBeTruthy();
   });
 
-  describe('rendering', () => {
+  describe('render', async() => {
     let el: Search & Element;
 
     beforeEach(async () => {
@@ -20,44 +21,36 @@ describe('Search', () => {
       let suggestEl: Element;
 
       beforeEach(() => {
-        suggestEl = el.querySelector('.tq-search__field--suggest>span');
+        suggestEl = el.querySelector('.tq-search__field--suggest > span');
       });
 
-      it('should work without parameters', () => {
+      it('should be empty', () => {
         expect(suggestEl.textContent).toEqual('');
       });
 
-      it('should work a first name', async () => {
+      it('should be text', async () => {
         el.suggest = 'Suggest';
 
         await flush(el);
         expect(suggestEl.textContent).toEqual('Suggest');
       });
-    })
+    });
+  });
 
-    xdescribe('input', () => {
-      let inputEl: HTMLInputElement;
-      let inputSpy: jest.SpyInstance<(Event) => void>;
-      // let inputSpy: jest.SpyInstance<(Event) => void>;
+  describe('input', () => {
+    let instance: Search;
 
-      beforeEach(() => {
-        inputEl = el.querySelector('input.tq-search__field') as HTMLInputElement;
-        // inputSpy = jest.spyOn(el, 'input');
-        // jest.spyOn(el, 'onSearch');
+    beforeEach(() => {
+      instance = new Search();
+    });
 
-      });
+    it('should emit search event', () => {
+      let emitMock = jest.fn();
+      instance.onSearch = { emit: emitMock };
 
-      it('should work a first name', async () => {
-        // let spy = jest.spyOn(el, 'onSearch');
-        let ev = new Event('input', {});
-        console.log(inputEl);
-        inputEl.dispatchEvent(ev);
-
-        await flush(el);
-
-        // expect(inputSpy).toHaveBeenCalled();
-        // expect().toHaveBeenCalledWith('vAlUe');
-      });
+      instance.input({ target: { value: 'test' } } as any);
+      expect(emitMock.mock.calls.length).toBe(1);
+      expect(emitMock.mock.calls[0][0]).toBe('test');
     });
   });
 });
