@@ -1,5 +1,6 @@
-.tq-list {
-  &__container {
+:host {
+  display: block;
+  contain: content;
     box-sizing: border-box;
 
     width: 100%;
@@ -10,7 +11,8 @@
 
     overflow-y: auto;
     overflow-x: hidden;
-  }
+}
+.tq-list {
   &__list {
     box-sizing: border-box;
 

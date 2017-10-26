@@ -1,6 +1,7 @@
-import { Component, Element, Listen, Prop, State } from '@stencil/core';
+import { Component, Listen, Prop, State } from '@stencil/core';
 import { Observable } from 'rxjs/Observable';
-import { Subscription  } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs/Subscription';
+import { take } from 'rxjs/operators';
 
 import { activate, create, getAll, queryHistory } from './utils/tab-manager';
 import { Tab } from './utils/tab';
@@ -8,7 +9,8 @@ import { nextIndex, prevIndex, daysInMilliseconds } from './utils/math';
 import { KEY_MAP } from './utils/key-map';
 
 @Component({
-  tag: 'tq-tabs'
+  tag: 'tq-tabs',
+  styleUrl: 'tabs.scss'
 })
 export class Tabs {
   @Prop({ context: 'isServer' }) private isServer: boolean;
@@ -20,8 +22,6 @@ export class Tabs {
   @State() items: Tab[] = [];
   @State() suggest: { term: string, url: string };
 
-  @Element() listEl: HTMLElement;
-
   tabs: Tab[] = [];
   subs: Subscription;
 
@@ -32,15 +32,17 @@ export class Tabs {
   componentDidLoad(): void {
     if (!this.isServer) {
       getAll()
-        .take(1)
+        .pipe(
+          take(1)
+        )
         .subscribe(tabs => this.tabs = this.items = tabs);
     }
   }
 
   render(): JSX.Element {
     return ([
-      <tq-search suggest={ this.suggest ? this.suggest.term : '' }></tq-search>,
-      <tq-list items={ this.items } selectedIndex={ this.selectedIndex }></tq-list>,
+      <tq-search suggest={this.suggest ? this.suggest.term : ''}></tq-search>,
+      <tq-list items={this.items} selectedIndex={this.selectedIndex}></tq-list>,
     ]);
   }
 
@@ -73,7 +75,9 @@ export class Tabs {
 
     if (!this.items.length) {
       this.subs = searchHistory(term, this.historySinceDays, this.maxHistoryItmes)
-        .take(1)
+        .pipe(
+          take(1)
+         )
         .subscribe(suggests => this.updateList(term, suggests));
     }
   }
@@ -92,15 +96,11 @@ export class Tabs {
     const maxIndex = this.items.length - 1;
     const index = next ? nextIndex(this.selectedIndex, maxIndex, true) : prevIndex(this.selectedIndex, maxIndex, true);
 
-    // seems to be faster than querySelector(`.tq-list__item:nth-child(${index + 1})`);
-    const selectedEl = this.listEl.querySelectorAll('.tq-list__item')[index];
-
-    selectedEl.scrollIntoView({ behavior: 'instant', block: 'nearest' });
     this.selectedIndex = index;
   }
 
   execAction(actionName: string): void {
-    switch(actionName) {
+    switch (actionName) {
       case 'CLOSE':
         window.close();
         break;

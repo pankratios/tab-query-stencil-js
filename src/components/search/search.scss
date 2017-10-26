@@ -1,3 +1,7 @@
+:host {
+  display: block;
+  contain: content;
+}
 .tq-search {
   &__field {
     box-sizing: border-box;

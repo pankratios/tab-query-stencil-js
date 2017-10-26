@@ -2,7 +2,8 @@ import { Component, Event, EventEmitter, Prop } from '@stencil/core';
 
 @Component({
   tag: 'tq-search',
-  styleUrl: 'search.scss'
+  styleUrl: 'search.scss',
+  shadow: true
 })
 export class Search {
   @Prop() suggest: string;

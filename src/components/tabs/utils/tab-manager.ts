@@ -1,17 +1,21 @@
 import { Tab } from './tab';
-import { Observable } from 'rxjs/RX';
+import { Observable } from 'rxjs/Observable';
+import { map } from 'rxjs/operators/map';
+import { bindCallback } from 'rxjs/observable/bindCallback';
 
 export const getAll = (): Observable<Tab[]> => {
-  const all = Observable.bindCallback<chrome.tabs.Tab[]>((
+  const all = bindCallback<chrome.tabs.Tab[]>((
     callback: (tabs: chrome.tabs.Tab[]) => void
   ) => chromeTabs().getAllInWindow(callback));
 
   return all()
-    .map((tabs: chrome.tabs.Tab[]) => tabs.map(convertItem));
+    .pipe(
+      map((tabs: chrome.tabs.Tab[]) => tabs.map(convertItem))
+    );
 };
 
 export const queryHistory = (text: string, startTime, maxResults = 1): Observable<Tab[]> => {
-  const search = Observable.bindCallback((
+  const search = bindCallback((
     text: string,
     startTime: number,
     maxResults: number,
@@ -19,7 +23,9 @@ export const queryHistory = (text: string, startTime, maxResults = 1): Observabl
   ) => chromeHistory().search({text, startTime, maxResults}, callback));
 
   return search(text, startTime, maxResults)
-    .map(historyItems => historyItems.map(convertItem));
+    .pipe(
+      map(historyItems => historyItems.map(convertItem))
+    );
 };
 
 export const activate = (id: number): void => {
