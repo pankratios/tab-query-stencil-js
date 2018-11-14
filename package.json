@@ -18,8 +18,10 @@
   },
   "devDependencies": {
     "@stencil/dev-server": "latest",
+    "@stencil/sass": "latest",
     "@stencil/utils": "latest",
-    "@types/chrome": "^0.0.48"
+    "@types/chrome": "^0.0.48",
+    "workbox-build": "3.4.1"
   },
   "author": "rom0130@gmail.com",
   "license": "MIT"

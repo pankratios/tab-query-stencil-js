@@ -3,6 +3,8 @@
   "name": "TabQuery (stenciljs)",
   "description": "",
   "version": "1.0",
+  "minimum_chrome_version": "46",
+  "content_security_policy": "script-src 'self' 'sha256-OjK60dMW87dfibI70zHl4RSBfXE4ohw9XJoBVVIQttE='",
   "icons": {
     "16": "images/icon-16.png",
     "128": "images/icon-128.png"
