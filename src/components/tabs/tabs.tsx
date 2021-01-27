@@ -1,11 +1,10 @@
 import { Component, Element, Listen, Prop, State } from '@stencil/core';
-import { Observable } from 'rxjs/Observable';
-import { Subscription  } from 'rxjs/Subscription';
-
-import { activate, create, getAll, queryHistory } from './utils/tab-manager';
-import { Tab } from './utils/tab';
-import { nextIndex, prevIndex, daysInMilliseconds } from './utils/math';
+import { Observable, Subject, Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { KEY_MAP } from './utils/key-map';
+import { daysInMilliseconds, nextIndex, prevIndex } from './utils/math';
+import { Tab } from './utils/tab';
+import { activate, create, getAll, queryHistory } from './utils/tab-manager';
 
 @Component({
   tag: 'tq-tabs'
@@ -23,6 +22,7 @@ export class Tabs {
   @Element() listEl: HTMLElement;
 
   tabs: Tab[] = [];
+  search$: Subject<void> = new Subject();
   subs: Subscription;
 
   get selected(): Tab {
@@ -31,9 +31,9 @@ export class Tabs {
 
   componentDidLoad(): void {
     if (!this.isServer) {
-      getAll()
-        .take(1)
-        .subscribe(tabs => this.tabs = this.items = tabs);
+      getAll().pipe(
+        take(1))
+              .subscribe(tabs => this.tabs = this.items = tabs);
     }
   }
 
@@ -63,6 +63,17 @@ export class Tabs {
     }
   }
 
+  /* search(term: string): void {
+   *   this.search$.next();
+
+
+   *   this.search$.
+   *   switchMapTo(this.search$)
+   *   .pipe(
+
+   *   );
+   * } */
+
   search(term: string): void {
     if (this.subs) {
       this.subs.unsubscribe();
@@ -73,7 +84,7 @@ export class Tabs {
 
     if (!this.items.length) {
       this.subs = searchHistory(term, this.historySinceDays, this.maxHistoryItmes)
-        .take(1)
+        .pipe(take(1))
         .subscribe(suggests => this.updateList(term, suggests));
     }
   }
@@ -144,21 +155,18 @@ const searchTabs = (term: string, tabs: Tab[]): Tab[] => {
 };
 
 const findSuggest = (term: string, suggests: Tab[]): { url: string, term: string } | undefined => {
-  const suggest = suggests.find(suggest => {
+  return suggests.reduce<{ url: string, term: string } | undefined>((res, suggest) => {
+    if (res) {
+      return res;
+    }
+
     const urlMatch = suggest.url.match(findSuggestPattern);
     const suggestTerm = urlMatch[1];
-    const index = suggestTerm.indexOf(term);
 
-    return index === 0;
-  })
+    if (suggestTerm.indexOf(term) !== 0) {
+      return res;
+    }
 
-  if (suggest) {
-    const urlMatch = suggest.url.match(findSuggestPattern);
-    const url = urlMatch[0];
-    const suggestTerm = urlMatch[1];
-
-    return { url, term: suggestTerm };
-  }
-
-  return undefined;
+    return { url: urlMatch[0], term: suggestTerm };
+  }, undefined);
 };

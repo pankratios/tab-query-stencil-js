@@ -14,13 +14,14 @@
   },
   "dependencies": {
     "@stencil/core": "next",
-    "rxjs": "^5.4.3"
+    "rxjs": "^6.3.3"
   },
   "devDependencies": {
     "@stencil/dev-server": "latest",
     "@stencil/sass": "latest",
     "@stencil/utils": "latest",
     "@types/chrome": "^0.0.48",
+    "typescript": "^3.1.6",
     "workbox-build": "3.4.1"
   },
   "author": "rom0130@gmail.com",

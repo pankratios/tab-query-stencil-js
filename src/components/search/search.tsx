@@ -9,11 +9,14 @@ export class Search {
 
   @Event() onSearch: EventEmitter;
 
+  searchHintEl!: HTMLSpanElement;
+
   render(): JSX.Element {
     return ([
       <div class="tq-search__field tq-search__field--suggest">
         <span>{ this.suggest }</span>
-        <span class="tq-search__hint">Press <b>⇥ </b> to open</span><br />
+        { this.suggest && <span class="tq-search__hint">Press <b>⇥ </b> to open</span> }
+        <br />
       </div>,
       <input autoFocus placeholder="Search" class="tq-search__field" type="search" onInput={ (ev) => this.input(ev) } autoComplete="off" role="search" />
     ]);
